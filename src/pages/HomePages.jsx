@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Loading } from '../components/Loading';
+import Pagination from '../components/Pagination';
 
 const HomePages = () => {
   const [data, setData] = useState([]);
@@ -21,27 +22,36 @@ const HomePages = () => {
   });
 
   useEffect(() => {
+    function fetchData() {
+      axios({
+        url: `https://randomuser.me/api/?page=${page}&results=10&seed=abc`,
+
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => {
+          console.log(res.data);
+          const results = res.data.results;
+          setData(results);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => setLoading(false));
+    }
     fetchData();
-  }, []);
+  }, [page]);
 
-  function fetchData() {
-    axios({
-      url: `https://randomuser.me/api/?page=1&results=8&seed=abc`,
+  const previous = () => {
+    if (page - 1 > 0) {
+      setPage(page - 1);
+    }
+  };
 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        const results = res.data.results;
-        setData(results);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => setLoading(false));
-  }
+  const next = () => {
+    setPage(page + 1);
+  };
 
   if (loading) {
     return <Loading />;
@@ -78,6 +88,7 @@ const HomePages = () => {
                   <Card key={index} item={item} page={page} />
                 ))}
               </div>
+              <Pagination previous={() => previous()} next={() => next()} />
             </div>
           </div>
         </div>

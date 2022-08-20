@@ -2,7 +2,7 @@ import React from 'react';
 
 function Card({ item }) {
   return (
-    <div className=" max-w-full h-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className=" max-w-full  h-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <div className="flex justify-center px-4 pt-4"></div>
       <div className="flex justify-center items-center w-full h-full">
         <div class=" text-center items-center pb-10 w-full">
